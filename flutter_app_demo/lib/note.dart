@@ -6,6 +6,7 @@ void note() {
   // option + return, 将lessState改成fulState
   // option + command + B, 显示所有子类
 
+  /// 叶子Widget
   /// 1. Text, 富文本, Text.rich, TextSpan,
   Text.rich(TextSpan(
     children: [
@@ -28,6 +29,8 @@ void note() {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8.0),
     ),
+    // FlatButton, 默认宽高最小48, 不设置这个属性，会有一段空白, 间距
+    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     child: Row(
       // Row, MainAxisSize.max是默认值，不设置，默认占据整行
       // MainAxisSize.min, 包裹内容
@@ -38,6 +41,22 @@ void note() {
       ],
     ),
   );
+
+  // FlatButton, 有最小的尺寸88, 36
+  // 在外面包一层ButtonTheme, 来设置大小
+  ButtonTheme(
+    minWidth: 30,
+    height: 30,
+    child: FlatButton(
+      // button内容有间距, 内间距, 设置padding
+      padding: EdgeInsets.all(0),
+      color: Colors.red,
+      onPressed: () {
+      },
+    ),
+  );
+
+  //
 
   /// 3. Image
   // 网络图片
@@ -70,6 +89,160 @@ void note() {
   // 3. 使用图片
   Image(
     image: AssetImage(''),
+  );
+
+  // 占位图
+  FadeInImage(
+    placeholder: AssetImage(''),
+    image: NetworkImage(''),
+    // 淡入淡出时间修改, 渐变
+    fadeOutDuration: Duration(milliseconds: 1),
+    fadeInDuration: Duration(days: 1),
+  );
+  // 图片缓存: 最多缓存1000张, 100M, 超过会清理, ImageCache可以设置
+
+  /// 4. Icon
+  // Icon是字体图标iconFont
+  // 1. 字体图标矢量图（放大不会失真）
+  // 2. 字体图标可以设置颜色
+  // 3. 图标很多时，占据空间更小
+  // IconData
+  Icon(Icons.add);
+  IconData(0xe145, fontFamily: 'MaterialIcons');
+  // 字体图片，可以通过Text创建，效果相同
+  // 1. 0xe145 -> unicode编码
+  // 2. 设置对应字体
+  Text(
+    '\0xe145',
+    style: TextStyle(
+      fontSize: 100,
+      color: Colors.orange,
+      fontFamily: 'MaterialIcons',
+    ),
+  );
+
+  /// 5. [TextField]
+  // 监听文本编辑
+  final userNameTextFiledController = TextEditingController();
+  TextField(
+    decoration: InputDecoration(
+      // 提示文本，点击后会上移
+      labelText: 'userName',
+      // 左边添加图片
+      icon: Icon(Icons.add),
+      // 默认文本
+      hintText: '',
+      // 边框
+      border: OutlineInputBorder(),
+      // 内部填充颜色
+      filled: true,
+      fillColor: Colors.red[100],
+    ),
+    // 监听文字变化
+    onChanged: (value) {
+    },
+    // 监听回车, Enter, Return,
+    onSubmitted: (value) {
+    },
+    controller: userNameTextFiledController,
+  );
+  Container(
+    // 填充父控件, 无限大
+    width: double.infinity,
+    child: FlatButton(
+      child: Text(''),
+      color: Colors.blue,
+      onPressed: () {
+        final username = userNameTextFiledController.text;
+        // 设置输入框内容, 清空内容
+        userNameTextFiledController.text = '';
+        print(username);
+      },
+    ),
+  );
+
+  // 输入框颜色, 边框颜色
+  Theme(
+    data: ThemeData(
+      primaryColor: Colors.red,
+    ),
+    child: TextField(
+      decoration: InputDecoration(
+        // 去除边框
+        border: InputBorder.none
+      ),
+    ),
+  );
+
+  // 16进制颜色
+  // Colors.white;
+  Color(0xFFFFFF);
+
+  /// 布局Widget
+  /// 6. Align, Center相同
+
+  // 限制Align大小
+  Container(
+    width: 100,
+    height: 100,
+    // 整个父控件大小
+    child: Align(
+      alignment: Alignment(-1, 1),
+      // child大小的倍数
+      widthFactor: 5,
+      //
+      heightFactor: 5,
+      child: Icon(Icons.add, size: 50,),
+    ),
+  );
+
+  /// 7. Padding
+  Padding(
+    // padding: EdgeInsets.all(10),
+    //  水平，垂直方向设置间距
+    // padding: EdgeInsets.symmetric(vertical: 5),
+    padding: EdgeInsets.symmetric(horizontal: 5),
+
+    child: Text(''),
+  );
+  /// 8. Container
+  // child多大，Container多大
+  // 或者自己设置宽高
+  // 或者扩展到父容器大小
+  Container(
+    margin: EdgeInsets.all(10),
+    padding: EdgeInsets.all(10),
+    color: Colors.red,
+    width: 100,
+    height: 100,
+    alignment: Alignment(1, 1),
+    // 变化
+    transform: Matrix4.rotationZ(100),
+    // transform: Matrix4.translation(translation),
+    // decoration和color会冲突
+    decoration: BoxDecoration(
+      color: Colors.red,
+      // 边框
+      border: Border.all(
+        width: 5,
+        color: Colors.red,
+      ),
+      // 圆角
+      // 圆形图片
+      borderRadius: BorderRadius.circular(10),
+      // 阴影
+      boxShadow: [
+        BoxShadow(
+            color: Colors.orange,
+            offset: Offset(10, 10),
+            spreadRadius: 5,
+            blurRadius: 10
+        ),
+      ],
+    ),
+
+    // UI调试 Open DevTools
+
   );
 }
 
